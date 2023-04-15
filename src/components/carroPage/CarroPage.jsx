@@ -30,17 +30,15 @@ const Page = ({ chaveCarro, setChaveCarro, setLoading, loading }) => {
     setOpen(estado)
     setLinha(linha)
     setId(linha.id)
-    setNome(linha.username)
-    setNivel(linha.nivel)
-    setSenha('')
+    setPlaca(linha.placa)
+    setCliente_Id(linha.cliente_id)
   }
 
   const [linha, setLinha] = useState([]);
   const [open, setOpen] = useState(false);
-  const [nome, setNome] = useState("");
+  const [placa, setPlaca] = useState("");
   const [id, setId] = useState("");
-  const [senha, setSenha] = useState("");
-  const [nivel, setNivel] = useState("");
+  const [cliente_id, setCliente_Id] = useState("");
   const [loadingModal, setLoadingModal] = useState(false);
 
 
@@ -62,7 +60,7 @@ const Page = ({ chaveCarro, setChaveCarro, setLoading, loading }) => {
   const [tipo, setTipo] = useState('');
   const submitUser = () => {
 
-    if (id === '' || nome === '' || nivel === '') {
+    if (id === '' || placa === '') {
       setTipo('warning')
       setAlertContent('Preencha todos os campos')
       setAlert(true)
@@ -72,12 +70,14 @@ const Page = ({ chaveCarro, setChaveCarro, setLoading, loading }) => {
       setAlert(true);
       setLoadingModal(true)
 
-      axios.put("/api/v1/postAtualizaUser", {
+      axios.put( `${process.env.REACT_APP_API_SERVER}/car/update`, {
         "id": id,
-        "nome": nome,
-        "senha": senha,
-        "nivel": nivel,
-      }).then(response => {
+        "placa": placa,
+        "cliente_id": cliente_id,
+      }, { headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }).then(response => {
         if (response.data.result === true) {
           setTimeout(() => {
             setTipo(response.data.tipo)
@@ -102,8 +102,8 @@ const Page = ({ chaveCarro, setChaveCarro, setLoading, loading }) => {
   }
 
   function rerender() {
-    setChaveCarro(chaveCarro === "light" ? "dark" : "light")
-    setLoading(true)
+    setChaveCarro(chaveCarro === "light" ? "dark" : "light");
+    setLoading(true);
   }
 
   //cria a página
@@ -158,7 +158,7 @@ const Page = ({ chaveCarro, setChaveCarro, setLoading, loading }) => {
                   borderRadius={5}
                 >
                   <Typography variant="h6" color="gray" textAlign="center">
-                    Alterar usuário
+                    Alterar carro
                   </Typography>
                   <Box
                     component="form"
@@ -180,43 +180,15 @@ const Page = ({ chaveCarro, setChaveCarro, setLoading, loading }) => {
                           defaultValue={linha.id}
                         />
                         <TextField
-                          disabled
-                          fullWidth
-                          required
-                          id="nivel"
-                          label="Nível"
-                          name="nivel"
-                          defaultValue={linha.nivel}
-                        />
-                      </FormControl>
-                      <FormControl sx={{ width: '61ch' }}  >
-                        <TextField
-
-                          onChange={(e) => {
-                            setNome(e.target.value)
+                        onChange={(e) => {
+                            setPlaca(e.target.value)
                           }}
                           fullWidth
                           required
-                          id="nome"
-                          label="Nome"
-                          name="nome"
-                          defaultValue={linha.username}
-                        />
-                      </FormControl>
-                      <FormControl sx={{ width: '60ch' }}  >
-                        <TextField
-
-                          onChange={(e) => {
-                            setSenha(e.target.value)
-                          }}
-                          required
-                          fullWidth
-                          name="senha"
-                          id="senha"
-                          label="Senha"
-                          type="password"
-                          placeholder='*******************'
-                          defaultValue=""
+                          id="placa"
+                          label="Placa"
+                          name="placa"
+                          defaultValue={linha.placa}
                         />
                       </FormControl>
                     </div>

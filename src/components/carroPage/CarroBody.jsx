@@ -21,7 +21,7 @@ const CarroBody = () => {
         </Stack>
       ) : (
         <>
-          <Page />
+          <Page setLoading={setLoading} loading={loading} setChaveCarro={setChaveCarro} chaveCarro={chaveCarro} key={chaveCarro}/>
           <Add setLoading={setLoading} loading={loading} setChaveCarro={setChaveCarro} chaveCarro={chaveCarro} key={chaveCarro}/>
         </>
       )}
