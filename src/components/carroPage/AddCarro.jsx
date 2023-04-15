@@ -35,35 +35,44 @@ const Add = ({ chaveCarro, setChaveCarro, setLoading, loading }) => {
   const [cliente, setCliente] = useState("");
 
   const [alert, setAlert] = useState(false);
+  const [alertType, setAlertType] = useState("");
   const [alertContent, setAlertContent] = useState("");
 
   //envia o formulário
   const submitPlaca = () => {
     if (placa === "") {
-      setAlert("warning");
+      setAlertType("warning");
       setAlertContent("Preencha todos os campos");
       setAlert(true);
     } else {
-      setAlert("info");
+      setAlertType("info");
       setAlertContent("Enviando");
       setAlert(true);
       setLoadingModal(true);
       axios
-        .post("/api/v1/postDeclaracao", {
-          placa: placa,
-          cliente_id: cliente,
-        })
+        .post(
+          `${process.env.REACT_APP_API_SERVER}/car/new`,
+          {
+            placa: placa,
+            cliente_id: cliente,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
+        )
         .then((response) => {
           if (response.data.result === true) {
             setTimeout(() => {
-              setPlaca(response.data.tipo);
+              setAlertType(response.data.tipo);
               setAlertContent(response.data.content);
               setAlert(true);
               setLoadingModal(false);
             }, [1000]);
           } else {
             setTimeout(() => {
-              setPlaca(response.data.tipo);
+              setAlertType(response.data.tipo);
               setAlertContent(response.data.content);
               setAlert(true);
               setLoadingModal(false);
@@ -119,7 +128,7 @@ const Add = ({ chaveCarro, setChaveCarro, setLoading, loading }) => {
         aria-describedby="modal-modal-description"
       >
         <Box
-          width={350}
+          width={480}
           height={340}
           bgcolor={"background.default"}
           color={"text.primary"}
@@ -170,7 +179,7 @@ const Add = ({ chaveCarro, setChaveCarro, setLoading, loading }) => {
           </Box>
 
           <ButtonGroup
-            sx={{ m: 1, width: "10ch" }}
+            sx={{ m: 1, width: "15ch" }}
             variant="contained"
             color="success"
             aria-label="outlined primary button group"
@@ -185,7 +194,7 @@ const Add = ({ chaveCarro, setChaveCarro, setLoading, loading }) => {
                 setAlert(false);
               }}
               variant="outlined"
-              severity={alert}
+              severity={alertType}
             >
               {alertContent}
             </Alert>
