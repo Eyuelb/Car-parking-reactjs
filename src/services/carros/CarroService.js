@@ -2,7 +2,7 @@ import axios from "axios";
 import { loadToken } from "../../utils/Auth";
 
 const CarrosService = axios.create({
-  baseURL: "http://localhost:3000/api/v1",
+  baseURL: `${process.env.REACT_APP_API_SERVER}`,
 });
 const getCarros = async () => {
   try {
