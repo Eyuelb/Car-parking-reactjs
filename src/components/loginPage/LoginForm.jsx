@@ -13,14 +13,13 @@ import {
   InputAdornment,
   IconButton,
 } from "@mui/material";
-import axios from 'axios';
 import React, { useState } from "react";
 import PetsRoundedIcon from '@mui/icons-material/PetsRounded';
 import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import PasswordIcon from '@mui/icons-material/Password';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
-
+import {login} from '../../utils/Auth';
 const LoginForm = () => {
   const [alert, setAlert] = useState(false);
   const [alertContent, setAlertContent] = useState('');
@@ -31,13 +30,9 @@ const LoginForm = () => {
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
   const submitLogin = () => {
-    axios.post(`${process.env.REACT_APP_API_SERVER}/user/authenticate`, { 
-      "username": username, 
-      "password": senha, 
-    })
+    login(username, senha)
     .then((response) => {
       if (response.status === 200) {
-        localStorage.setItem('token', response.data.token);
         setAlert(false);
         window.location.href = '/';
       } else {
