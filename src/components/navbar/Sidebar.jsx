@@ -1,5 +1,4 @@
 import {
-  AccountBox,
   Logout,
   ConfirmationNumber,
   Home,
