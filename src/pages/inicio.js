@@ -2,7 +2,8 @@ import Sidebar from "../components/navbar/Sidebar";
 import IndexBody from "../components/indexPage/IndexBody";
 import { Box, createTheme, Stack, ThemeProvider } from "@mui/material";
 import Navbar from "../components/navbar/Navbar";
-import { useState} from "react";
+import { useState, useEffect} from "react";
+import { loadToken } from "../utils/Auth";
 
 
 function App() {
@@ -13,6 +14,12 @@ function App() {
       mode: mode,
     },
   });
+
+  useEffect(() => {
+    if (loadToken() === null){
+      window.location.href = '/login';
+    }
+  })
   return (
     
     <ThemeProvider theme={darkTheme}>
