@@ -2,7 +2,8 @@ import Sidebar from "../components/navbar/Sidebar";
 import CarroBody from "../components/carroPage/CarroBody";
 import { Box, createTheme, Stack, ThemeProvider } from "@mui/material";
 import Navbar from "../components/navbar/Navbar";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { loadToken } from "../utils/Auth";
 
 function App() {
   const [mode, setMode] = useState("dark");
@@ -12,6 +13,12 @@ function App() {
       mode: mode,
     },
   });
+
+  useEffect(() => {
+    if (loadToken() === null){
+      window.location.href = '/login';
+    }
+  })
   return (
     
     <ThemeProvider theme={darkTheme}>
