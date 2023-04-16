@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 //import Usuarios from "./pages/Usuarios.js";
 import Carros from "./pages/Carros.js";
+import Clientes from "./pages/Clientes.js";
 import Index from "./pages/inicio.js";
 import Login from "./pages/Login.js";
 import Logout from "./utils/Logout.js";
@@ -11,7 +12,7 @@ function App() {
   useEffect(() => {
     const token = loadToken();
 
-    if (!token || token === null && window.location.pathname !== "/login" && window.location.pathname !== "/user/authenticate") {
+    if (token === null && window.location.pathname !== "/login" && window.location.pathname !== "/user/authenticate") {
       window.location.href = "/login";
     }
   }, []);
@@ -23,6 +24,7 @@ function App() {
           <Route path="/" element={<Index />} />
           {/* <Route path="/usuarios" element={<Usuarios />} /> */}
           <Route path="/carros" element={<Carros />} />
+          <Route path="/clientes" element={<Clientes />} />
           <Route path="/sair" element={<Logout />} />
         </Routes>
       </Router>
