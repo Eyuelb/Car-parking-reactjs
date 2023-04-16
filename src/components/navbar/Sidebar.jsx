@@ -1,11 +1,15 @@
 import {
   AccountBox,
-  Article,
-  Group,
+  Logout,
+  ConfirmationNumber,
   Home,
   ModeNight,
   Person,
-  Storefront,
+  LocalActivity,
+  LocalParking,
+  DirectionsCar,
+  Badge,
+  AdminPanelSettings,
 } from "@mui/icons-material";
 import {
   Box,
@@ -34,7 +38,7 @@ const Sidebar = ({mode,setMode}) => {
           <ListItem disablePadding>
             <ListItemButton component="a" href="/admin">
               <ListItemIcon>
-                <Article />
+                <AdminPanelSettings />
               </ListItemIcon>
               <ListItemText primary="Painel admin" />
             </ListItemButton>
@@ -42,7 +46,7 @@ const Sidebar = ({mode,setMode}) => {
           <ListItem disablePadding>
             <ListItemButton component="a" href="/vagas">
               <ListItemIcon>
-                <Group />
+                <LocalParking />
               </ListItemIcon>
               <ListItemText primary="Vagas" />
             </ListItemButton>
@@ -50,7 +54,7 @@ const Sidebar = ({mode,setMode}) => {
           <ListItem disablePadding>
             <ListItemButton component="a" href="/carros">
               <ListItemIcon>
-                <Storefront />
+                <DirectionsCar />
               </ListItemIcon>
               <ListItemText primary="Carros" />
             </ListItemButton>
@@ -66,7 +70,7 @@ const Sidebar = ({mode,setMode}) => {
           <ListItem disablePadding>
             <ListItemButton component="a" href="/tickets/ativos">
               <ListItemIcon>
-                <AccountBox />
+                <ConfirmationNumber />
               </ListItemIcon>
               <ListItemText primary="Tickets ativos" />
             </ListItemButton>
@@ -74,7 +78,7 @@ const Sidebar = ({mode,setMode}) => {
           <ListItem disablePadding>
             <ListItemButton component="a" href="/tickets/todos">
               <ListItemIcon>
-                <AccountBox />
+                <LocalActivity />
               </ListItemIcon>
               <ListItemText primary="Todos os Tickets" />
             </ListItemButton>
@@ -82,7 +86,7 @@ const Sidebar = ({mode,setMode}) => {
           <ListItem disablePadding>
             <ListItemButton component="a" href="/usuario">
               <ListItemIcon>
-                <AccountBox />
+                <Badge />
               </ListItemIcon>
               <ListItemText primary="Cadastrar usuario" />
             </ListItemButton>
@@ -98,7 +102,7 @@ const Sidebar = ({mode,setMode}) => {
           <ListItem disablePadding>
             <ListItemButton component="a" href="/sair">
               <ListItemIcon>
-                <AccountBox />
+                <Logout />
               </ListItemIcon>
               <ListItemText primary="Sair" />
             </ListItemButton>
