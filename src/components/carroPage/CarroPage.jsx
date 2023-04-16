@@ -17,6 +17,7 @@ import {
   Alert,
   CircularProgress,
 } from "@mui/material";
+import { getCarros, updateCarro } from '../../services/carros/CarroService';
 
 const SytledModal = styled(Modal)({
   display: "flex",
@@ -26,6 +27,26 @@ const SytledModal = styled(Modal)({
 
 const Page = ({ chaveCarro, setChaveCarro, setLoading, loading }) => {
 
+  const [linha, setLinha] = useState([]);
+  const [open, setOpen] = useState(false);
+  const [placa, setPlaca] = useState("");
+  const [id, setId] = useState("");
+  const [cliente_id, setCliente_Id] = useState("");
+  const [loadingModal, setLoadingModal] = useState(false);
+  const [carros, setCarros] = useState([]);
+  const [alert, setAlert] = useState(false);
+  const [alertContent, setAlertContent] = useState('');
+  const [alertType, setAlertType] = useState('');
+
+  useEffect(() => {
+    const fetchCarros = async () => {
+      const response = await getCarros();
+      setCarros(response);
+    }
+    fetchCarros();
+
+  }, [])
+
   function setModal(linha, estado) {
     setOpen(estado)
     setLinha(linha)
@@ -34,77 +55,37 @@ const Page = ({ chaveCarro, setChaveCarro, setLoading, loading }) => {
     setCliente_Id(linha.cliente_id)
   }
 
-  const [linha, setLinha] = useState([]);
-  const [open, setOpen] = useState(false);
-  const [placa, setPlaca] = useState("");
-  const [id, setId] = useState("");
-  const [cliente_id, setCliente_Id] = useState("");
-  const [loadingModal, setLoadingModal] = useState(false);
-
-
-  //busca usuarios no node
-  const [carros, setCarros] = useState([]);
-  useEffect(() => {
-    axios.get(`${process.env.REACT_APP_API_SERVER}/car/list`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      }).then(function (response) {
-      setCarros(response.data)
-    })
-
-  }, [])
-
-  const [alert, setAlert] = useState(false);
-  const [alertContent, setAlertContent] = useState('');
-  const [tipo, setTipo] = useState('');
-  const submitUser = () => {
-
+  function rerender() {
+    setChaveCarro(chaveCarro === "light" ? "dark" : "light");
+    setLoading(true);
+  }
+  const submitCarro= () => {
     if (id === '' || placa === '') {
-      setTipo('warning')
+      setAlertType('warning')
       setAlertContent('Preencha todos os campos')
       setAlert(true)
     } else {
-      setTipo("info")
+      setAlertType("info")
       setAlertContent("Enviando")
       setAlert(true);
       setLoadingModal(true)
-
-      axios.put( `${process.env.REACT_APP_API_SERVER}/car/update`, {
-        "id": id,
-        "placa": placa,
-        "cliente_id": cliente_id,
-      }, { headers: {
-              Authorization: `Bearer ${localStorage.getItem("token")}`,
-            },
-          }).then(response => {
-        if (response.data.result === true) {
+      console.log(id, placa, cliente_id)
+      const getAlert = async () => {
+        const response = await updateCarro(id, placa, cliente_id);
+        if (response.data.result) {
           setTimeout(() => {
-            setTipo(response.data.tipo)
-            setAlertContent(response.data.content);
-            setAlert(true);
-            setLoadingModal(false);
-          }, [1000]);
-
-        } else {
-          setTimeout(() => {
-            setTipo(response.data.tipo)
+            setAlertType(response.data.tipo);
             setAlertContent(response.data.content);
             setAlert(true);
             setLoadingModal(false);
           }, [1000]);
         }
-      }).catch(error => {
-        console.log(error)
-      })
+      }
+      getAlert();
     }
-
   }
 
-  function rerender() {
-    setChaveCarro(chaveCarro === "light" ? "dark" : "light");
-    setLoading(true);
-  }
+
 
   //cria a página
   return (
@@ -126,7 +107,7 @@ const Page = ({ chaveCarro, setChaveCarro, setLoading, loading }) => {
                 <Typography key={row.id} sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
                   ID: {row.id}
                 </Typography>
-                <Typography key={row.id} sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+                <Typography key={row.cliente_id} sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
                   Nome do Cliente: {row.cliente_nome}
                 </Typography>
               </CardContent>
@@ -180,6 +161,16 @@ const Page = ({ chaveCarro, setChaveCarro, setLoading, loading }) => {
                           defaultValue={linha.id}
                         />
                         <TextField
+                          disabled
+                          hidden
+                          fullWidth
+                          required
+                          id="cliente_id"
+                          label="cliente_ID"
+                          name="cliente_id"
+                          defaultValue={linha.cliente_id}
+                        />
+                        <TextField
                         onChange={(e) => {
                             setPlaca(e.target.value)
                           }}
@@ -200,11 +191,11 @@ const Page = ({ chaveCarro, setChaveCarro, setLoading, loading }) => {
                     color="success"
                     aria-label="outlined primary button group"
                   >
-                    <Button onClick={submitUser}>Atualizar</Button>
+                    <Button onClick={submitCarro}>Atualizar</Button>
                   </ButtonGroup>
                   {alert ? <Alert align="right" onClick={() => {
                     setAlert(false);
-                  }} variant="outlined" severity={tipo}>{alertContent}</Alert> : <></>}
+                  }} variant="outlined" severity={alertType}>{alertContent}</Alert> : <></>}
                   <Box sx={{
                     position: "fixed",
                     bottom: 20,
