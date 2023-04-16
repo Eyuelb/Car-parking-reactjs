@@ -5,12 +5,13 @@ import Index from "./pages/inicio.js";
 import Login from "./pages/Login.js";
 import Logout from "./utils/Logout.js";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { loadToken } from "./utils/Auth";
 
 function App() {
   useEffect(() => {
-    const token = localStorage.getItem('token');
+    const token = loadToken();
 
-    if (!token && window.location.pathname !== "/login" && window.location.pathname !== "/user/authenticate") {
+    if (!token || token === null && window.location.pathname !== "/login" && window.location.pathname !== "/user/authenticate") {
       window.location.href = "/login";
     }
   }, []);
