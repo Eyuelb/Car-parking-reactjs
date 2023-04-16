@@ -18,6 +18,9 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Add as AddIcon } from "@mui/icons-material";
 import { Box } from "@mui/system";
+import { loadToken } from "../../utils/Auth";
+import { getClients } from "../../services/clientes/ClientesService";
+import { createCarro } from "../../services/carros/CarroService";
 
 const SytledModal = styled(Modal)({
   display: "flex",
@@ -49,39 +52,26 @@ const Add = ({ chaveCarro, setChaveCarro, setLoading, loading }) => {
       setAlertContent("Enviando");
       setAlert(true);
       setLoadingModal(true);
-      axios
-        .post(
-          `${process.env.REACT_APP_API_SERVER}/car/new`,
-          {
-            placa: placa,
-            cliente_id: cliente,
-          },
-          {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("token")}`,
-            },
-          }
-        )
-        .then((response) => {
-          if (response.data.result === true) {
-            setTimeout(() => {
-              setAlertType(response.data.tipo);
-              setAlertContent(response.data.content);
-              setAlert(true);
-              setLoadingModal(false);
-            }, [1000]);
-          } else {
-            setTimeout(() => {
-              setAlertType(response.data.tipo);
-              setAlertContent(response.data.content);
-              setAlert(true);
-              setLoadingModal(false);
-            }, [1000]);
-          }
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+      
+      const getAlert = async () => {
+        const response = await createCarro(placa, cliente);
+        if (response.data.result === true) {
+          setTimeout(() => {
+            setAlertType(response.data.tipo);
+            setAlertContent(response.data.content);
+            setAlert(true);
+            setLoadingModal(false);
+          }, [1000]);
+        } else {
+          setTimeout(() => {
+            setAlertType(response.data.tipo);
+            setAlertContent(response.data.content);
+            setAlert(true);
+            setLoadingModal(false);
+          }, [1000]);
+        }
+      }
+      getAlert();
     }
   };
 
@@ -91,15 +81,12 @@ const Add = ({ chaveCarro, setChaveCarro, setLoading, loading }) => {
   const [clientes, setClientes] = useState([]);
 
   useEffect(() => {
-    axios
-      .get(`${process.env.REACT_APP_API_SERVER}/client/list`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      })
-      .then(function (response) {
-        setClientes(response.data);
-      });
+    
+    const fetchClients = async () => {
+      const response = await getClients();
+      setClientes(response);
+    }
+    fetchClients();
   }, []);
 
   function rerender() {
@@ -157,7 +144,7 @@ const Add = ({ chaveCarro, setChaveCarro, setLoading, loading }) => {
                   onChange={handleChangeCliente}
                 >
                   {clientes.map((row) => (
-                    <MenuItem value={row.id}>{row.nome}</MenuItem>
+                    <MenuItem key={row.id} value={row.id}>{row.nome}</MenuItem>
                   ))}
                 </Select>
               </FormControl>
