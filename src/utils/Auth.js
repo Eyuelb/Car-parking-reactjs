@@ -7,18 +7,18 @@ const auth = axios.create({
 const setAuthToken = (token) => {
   if (token) {
     auth.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-    localStorage.setItem("token", token);
-    localStorage.setItem("tokenGeneratedAt", new Date().getTime());
+    sessionStorage.setItem("token", token);
+    sessionStorage.setItem("tokenGeneratedAt", new Date().getTime());
   } else {
     delete auth.defaults.headers.common["Authorization"];
-    localStorage.removeItem("token");
-    localStorage.removeItem("tokenGeneratedAt");
+    sessionStorage.removeItem("token");
+    sessionStorage.removeItem("tokenGeneratedAt");
   }
 };
 
 const loadToken = () => {
-  const token = localStorage.getItem("token");
-  const tokenGeneratedAt = localStorage.getItem("tokenGeneratedAt");
+  const token = sessionStorage.getItem("token");
+  const tokenGeneratedAt = sessionStorage.getItem("tokenGeneratedAt");
 
   if (!token || !tokenGeneratedAt) {
     return null;
