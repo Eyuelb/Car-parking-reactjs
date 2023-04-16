@@ -6,15 +6,12 @@ import {
   styled,
   Tooltip,
   Typography,
-  Select,
-  MenuItem,
   FormControl,
-  InputLabel,
   Alert,
   CircularProgress,
   TextField,
 } from "@mui/material";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Add as AddIcon } from "@mui/icons-material";
 import { Box } from "@mui/system";
 import { createCliente } from "../../services/clientes/ClientesService";

@@ -15,10 +15,8 @@ import {
   TextField,
 } from "@mui/material";
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import { Add as AddIcon } from "@mui/icons-material";
 import { Box } from "@mui/system";
-import { loadToken } from "../../utils/Auth";
 import { getClients } from "../../services/clientes/ClientesService";
 import { createCarro } from "../../services/carros/CarroService";
 
