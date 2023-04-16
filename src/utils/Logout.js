@@ -4,7 +4,7 @@ import axios from 'axios';
 
 function App() {
   useEffect(() => {
-    localStorage.removeItem("token");
+    sessionStorage.removeItem("token");
 
 }, []) 
 

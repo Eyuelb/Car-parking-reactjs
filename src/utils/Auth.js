@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const auth = axios.create({
-  baseURL: "http://localhost:3000/api/v1",
+  baseURL: `${process.env.REACT_APP_API_SERVER}`,
 });
 
 const setAuthToken = (token) => {
