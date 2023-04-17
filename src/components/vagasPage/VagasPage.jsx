@@ -10,11 +10,14 @@ import {
   Typography,
 } from "@mui/material";
 import { getVagas } from '../../services/vagas/VagasService';
-
+import Add from '../ticketPage/AddTicket';
 
 const Page = ({ chaveVagas, setChaveVagas, setLoading, loading }) => {
 
   const [vagas, setVagas] = useState([]);
+  const [openAddModal, setOpenAddModal] = useState(false);
+  const [openModal, setOpenModal] = useState(false);
+  const [idPass, setIdPass] = useState(''); 
   
   useEffect(() => {
     const fetchVagas = async () => {
@@ -25,6 +28,11 @@ const Page = ({ chaveVagas, setChaveVagas, setLoading, loading }) => {
     fetchVagas();
 
   }, [])
+
+//função temporaria que vai ser alterada para abertura de modal
+  const click = () =>{
+    setOpenAddModal(true);
+  }
 
   //cria a página
   return (
@@ -39,7 +47,10 @@ const Page = ({ chaveVagas, setChaveVagas, setLoading, loading }) => {
               <CardHeader style={{ textAlign: 'center' }}
                 title={row.id}
               />
-              <CardContent style={{ textAlign: 'center' }}>
+              <CardContent 
+              onClick={() => {setOpenModal(true); setIdPass(row.id)}}
+              style={{ textAlign: 'center' }}>
+              
               {row.estado ? <DirectionsCarIcon sx={{ fontSize: 90 }} color="success"/> : <DirectionsCarIcon sx={{ fontSize: 90 }} color="error"/>}
               </CardContent>
 
@@ -49,6 +60,7 @@ const Page = ({ chaveVagas, setChaveVagas, setLoading, loading }) => {
           </Grid>
         ))}
       </Grid>
+      <Add open={openModal} setOpenModal={setOpenModal} id={idPass} />
     </Box>
   );
 
