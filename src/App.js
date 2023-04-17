@@ -5,6 +5,7 @@ import Clientes from "./pages/Clientes.js";
 import Index from "./pages/inicio.js";
 import Login from "./pages/Login.js";
 import Logout from "./utils/Logout.js";
+import Vagas from './pages/Vagas.js'
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { loadToken } from "./utils/Auth";
 
@@ -25,6 +26,7 @@ function App() {
           {/* <Route path="/usuarios" element={<Usuarios />} /> */}
           <Route path="/carros" element={<Carros />} />
           <Route path="/clientes" element={<Clientes />} />
+          <Route path="/vagas" element={<Vagas />} />
           <Route path="/sair" element={<Logout />} />
         </Routes>
       </Router>
