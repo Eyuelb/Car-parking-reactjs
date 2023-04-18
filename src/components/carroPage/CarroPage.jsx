@@ -97,7 +97,7 @@ const Page = ({ chaveCarro, setChaveCarro, setLoading, loading }) => {
           <Grid item xs={6} md={4}>
             <Card sx={{ margin: 1 }}>
               <CardHeader
-                title={row.username}
+                title={row.placa +" - " + row.cliente_nome} 
               />
               <CardContent>
                 <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
