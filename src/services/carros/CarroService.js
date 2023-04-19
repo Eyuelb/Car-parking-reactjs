@@ -33,6 +33,7 @@ const createCarro = async (placa, cliente) => {
     );
     return response;
   } catch (error) {
+    return error.response;
     console.error(error);
   }
 };

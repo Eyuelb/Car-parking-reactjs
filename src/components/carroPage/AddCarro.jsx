@@ -53,7 +53,8 @@ const Add = ({ chaveCarro, setChaveCarro, setLoading, loading }) => {
       
       const getAlert = async () => {
         const response = await createCarro(placa, cliente);
-        if (response.data.result === true) {
+        if (response.data.result) {
+          console.log(response)
           setTimeout(() => {
             setAlertType(response.data.tipo);
             setAlertContent(response.data.content);
