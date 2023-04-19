@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 //import Usuarios from "./pages/Usuarios.js";
 import Carros from "./pages/Carros.js";
 import Clientes from "./pages/Clientes.js";

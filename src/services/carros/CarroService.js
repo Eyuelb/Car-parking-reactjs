@@ -13,7 +13,7 @@ const getCarros = async () => {
     });
     return response.data;
   } catch (error) {
-    console.error(error);
+    return error.response;
   }
 };
 
@@ -34,7 +34,7 @@ const createCarro = async (placa, cliente) => {
     return response;
   } catch (error) {
     return error.response;
-    console.error(error);
+    
   }
 };
 

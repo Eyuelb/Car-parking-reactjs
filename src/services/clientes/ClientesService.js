@@ -13,7 +13,7 @@ const getClients = async () => {
         });
         return response.data;
     } catch (error) {
-        console.error(error);
+        return error.response;
     }
 };
 
@@ -54,7 +54,7 @@ const updateCliente = async (id, nome, cpf, telefone) => {
         });
         return response;
     } catch (error) {
-        console.error(error);
+        return error.response;
     }
 }
 
