@@ -10,7 +10,10 @@ import {
   InputLabel,
   Alert,
   CircularProgress,
+  Tooltip,
+  Fab,
 } from "@mui/material";
+import { Add as AddIcon } from "@mui/icons-material";
 import React, { useState, useEffect } from "react";
 import { Box } from "@mui/system";
 import { getCarros } from "../../services/carros/CarroService";
@@ -22,8 +25,7 @@ const SytledModal = styled(Modal)({
   justifyContent: "center",
 });
 
-const Add = ({open, setOpenModal, id}) => {
-
+const Add = ({ open, setOpenModal, id }) => {
   const [carros, setCarros] = useState([]);
   const [tipos, setTipos] = useState([]);
   const [loadingModal, setLoadingModal] = useState(false);
@@ -39,42 +41,42 @@ const Add = ({open, setOpenModal, id}) => {
 
   const handleChangeTipo = (event) => {
     setTipo(event.target.value);
-  };  
+  };
 
   //temporario até criar métodos de tickets
-  const createTicket = () =>{
+  const createTicket = () => {
     console.log('Temp function createTicket');
   }
 
   //temporario até criar métodos de Tipos
-  const getTipos = () =>{
+  const getTipos = () => {
     console.log('Tempo function getTipos');
-    return [{'id': "1", 'descr': "teste"}, {'id': '2', 'descr': 'teste2'}]
+    return [{ 'id': "1", 'descr': "teste" }, { 'id': '2', 'descr': 'teste2' }]
   }
 
   //envia o formulário
   const submitTicket = () => {
 
-      const getAlert = async () => {
-        const response = await createTicket(id, carro, tipo);
-        if (response.data.result === true) {
-          setTimeout(() => {
-            setAlertType(response.data.tipo);
-            setAlertContent(response.data.content);
-            setAlert(true);
-            setLoadingModal(false);
-          }, [1000]);
-        } else {
-          setTimeout(() => {
-            setAlertType(response.data.tipo);
-            setAlertContent(response.data.content);
-            setAlert(true);
-            setLoadingModal(false);
-          }, [1000]);
-        }
+    const getAlert = async () => {
+      const response = await createTicket(id, carro, tipo);
+      if (response.data.result === true) {
+        setTimeout(() => {
+          setAlertType(response.data.tipo);
+          setAlertContent(response.data.content);
+          setAlert(true);
+          setLoadingModal(false);
+        }, [1000]);
+      } else {
+        setTimeout(() => {
+          setAlertType(response.data.tipo);
+          setAlertContent(response.data.content);
+          setAlert(true);
+          setLoadingModal(false);
+        }, [1000]);
       }
-      getAlert();
-    };
+    }
+    getAlert();
+  };
 
   useEffect(() => {
     const fetchDados = async () => {
@@ -90,6 +92,19 @@ const Add = ({open, setOpenModal, id}) => {
 
   return (
     <>
+    <Tooltip
+    onClick={(e) => {setOpenModal(true); console.log(open)}}
+    title="Delete"
+    sx={{
+      position: "fixed",
+      bottom: 20,
+      left: { xs: "calc(50% - 25px)", md: 30 },
+    }}
+  >
+    <Fab color="primary" aria-label="add">
+  <AddIcon />
+</Fab>
+</Tooltip>
       <SytledModal
         open={open}
         onClose={(e) => setOpenModal(false)}

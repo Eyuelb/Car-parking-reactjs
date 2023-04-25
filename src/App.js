@@ -6,6 +6,7 @@ import Index from "./pages/inicio.js";
 import Login from "./pages/Login.js";
 import Logout from "./utils/Logout.js";
 import Vagas from './pages/Vagas.js'
+import Tickets from './pages/Tickets.js'
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { loadToken } from "./utils/Auth";
 
@@ -23,6 +24,7 @@ function App() {
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route path="/" element={<Index />} />
+          <Route path="/tickets/todos" element={<Tickets />} />
           {/* <Route path="/usuarios" element={<Usuarios />} /> */}
           <Route path="/carros" element={<Carros />} />
           <Route path="/clientes" element={<Clientes />} />
