@@ -41,7 +41,12 @@ const loadToken = () => {
 
 const renewToken = async (token) => {
   try {
-    const response = await auth.post("/user/renewToken");
+    const response = await auth.post("/user/renewToken", 
+    {
+      headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
     const newToken = response.data.token;
     setAuthToken(newToken);
     return newToken;
